@@ -59,12 +59,12 @@ def reap(file_name):
     # Loop through all the plugins and gather the URLs
     for plugin in manager.getAllPlugins():
         logger.info('Processing: ' + plugin.plugin_object.get_name())
-        o_headers = None
-        try:
-            o_headers = plugin.plugin_object.get_headers()
-        except Exception as e:
-            pass #because we don't care if this isn't implemented in plugins
         for url in plugin.plugin_object.get_URLs():
+            o_headers = None
+            try:
+                o_headers = plugin.plugin_object.get_headers(url)
+            except Exception as e:
+                pass #because we don't care if this isn't implemented in plugins
             if url.startswith('file://'):
                 files.append(url.partition('://')[2])
             else:
